@@ -8,7 +8,7 @@ import platform
 def get_system_uptime():
     """Get and print system uptime."""
     system = platform.system()
-    
+
     try:
         if system == "Linux":
             # On Linux, use uptime command
@@ -19,13 +19,13 @@ def get_system_uptime():
             result = subprocess.run(["uptime"], capture_output=True, text=True)
             uptime = result.stdout.strip()
         elif system == "Windows":
-            # On Windows, use wmic to query the last boot time
+            # On Windows, use PowerShell to compute uptime from last boot time
             result = subprocess.run(
-                ["wmic", "os", "get", "lastbootuptime"],
+                ["powershell", "-NoProfile", "-Command",
+                 "(Get-Date) - (Get-CimInstance Win32_OperatingSystem).LastBootUpTime"],
                 capture_output=True,
                 text=True
             )
-            print(f"result: {result.stdout}") # debug
             uptime = result.stdout.strip()
         else:
             uptime = f"Unknown operating system: {system}"
