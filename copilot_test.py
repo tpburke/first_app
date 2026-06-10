@@ -21,7 +21,7 @@ def get_system_uptime():
         elif system == "Windows":
             # On Windows, use wmic command
             result = subprocess.run(
-                ["wmic", "os", "get", "lasbootuptime"],
+                ["wmic", "os", "get", "lastbootuptime"],
                 capture_output=True,
                 text=True
             )
