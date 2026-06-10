@@ -36,7 +36,7 @@ def get_system_uptime():
                     text=True,
                     shell=True
                 )
-                uptime = result.stdout.strip()
+                uptime = result.strip()
         else:
             uptime = f"Unknown operating system: {system}"
     except Exception as e:
