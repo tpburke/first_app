@@ -19,13 +19,24 @@ def get_system_uptime():
             result = subprocess.run(["uptime"], capture_output=True, text=True)
             uptime = result.stdout.strip()
         elif system == "Windows":
-            # On Windows, use wmic command
-            result = subprocess.run(
-                ["wmic", "os", "get", "lastbootuptime"],
-                capture_output=True,
-                text=True
-            )
-            uptime = result.stdout.strip()
+            # On Windows, use wmic command with shell=True
+            try:
+                result = subprocess.run(
+                    ["wmic", "os", "get", "lastbootuptime"],
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+                uptime = result.stdout.strip()
+            except:
+                # Fallback: use systeminfo command
+                result = subprocess.run(
+                    ["systeminfo"],
+                    capture_output=True,
+                    text=True,
+                    shell=True
+                )
+                uptime = result.stdout.strip()
         else:
             uptime = f"Unknown operating system: {system}"
     except Exception as e:
